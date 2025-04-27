@@ -18,7 +18,7 @@ import suggest
 import logging
 
 
-log = logging.getLogger('tester.sub')
+log = logging.getLogger('logger')
 
 
 def read_data(file_name: str):
@@ -230,11 +230,6 @@ def get_disambig_candidates(title: str) -> list[str]:
             links = []
 
     for link in links:
-        # ignore interwiki links
-        # TODO: verify if interwiki/category links are even returned by the API
-        if re.match(r"^[a-zA-Z\-]+\:.+$", link["title"]):
-            pass
-
         # if the original link title doesn't appear in the candidate, ignore it
         if title not in link["title"]:
             continue
