@@ -165,14 +165,15 @@ def process_ambiguous_links(html: str) -> list[dict]:
         r'<div [^>]*?role="note"[^>]*?>[^<]*<a[^>]*?class="mw-disambig"[^>]*?>[^>]*?<\/a>[^>]*?<\/div>', "", html
     )
 
-    pat = re.compile(r"<a [^>]*?(class=\"mw-disambig\" [^>]*?title=\".*?\"|" +  # noqa:W504
-                     r"title=\".*?\" [^>]*?class=\"mw-disambig\")" +  # noqa:W504
+    pat = re.compile(r"<a [^>]*?(class=\"mw-disambig\" [^>]*?title=\"[^\"]+?\"|" +  # noqa:W504
+                     r"title=\"[^\"]+?\" [^>]*?class=\"mw-disambig\")" +  # noqa:W504
                      r"[^>]*?>.*?<\/a>")
 
     links = pat.findall(html)
 
     for link in links:
-        title = re.findall(r"title=\"(.+)\"", link)[0]
+        title = re.findall(r"title=\"(.+?)\"", link)[0]
+
         if title not in ambig_titles:
             suggestions = get_disambig_candidates(title)
             ambig_titles.append(title)
