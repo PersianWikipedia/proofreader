@@ -237,7 +237,7 @@ def get_disambig_candidates(title: str) -> list[str]:
 
         # if the original link title doesn't appear in the candidate, ignore it
         if title not in link["title"]:
-            pass
+            continue
 
         candidate = link["title"]
 
