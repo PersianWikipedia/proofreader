@@ -370,6 +370,7 @@ def convert_regex(input, new_matches, dict):
 
 
 def load_ref_data():
+    # TODO eliminate the need for global variables
     global honorifics_blacklist, user_provided_blacklist, most_words_list, Persian_words_list, wiki_titles_list, slang_list, profanity_pat
     honorifics_blacklist, most_words_list, Persian_words_list, wiki_titles_list, slang_list, profanity_pat = [], [], [], [], [], []
 
@@ -666,13 +667,6 @@ def check_grammar(faText_list, words_text_list):
     return first_step_words
 
 
-def process_page(page_title):
-    wikitext = "\n" + get_page_wikitext(page_title) + "\n"
-    html = get_page_html(page_title)
-    result = main(page_title, wikitext, html)
-    return generate_output(result)
-
-
 def main(page_title, wikitext, html):
     if (
         "نظرخواهی" in page_title
@@ -800,7 +794,15 @@ def main(page_title, wikitext, html):
     return result
 
 
-def generate_output(result):
+def generate_output(result: list[str]) -> str:
+    """Converts the result object into JSON output
+
+    Args:
+        result (list[str]): List object of the issues to return
+
+    Returns:
+        str: JSON output
+    """
     return {
         "result": result,
         "types": {
@@ -864,18 +866,24 @@ def generate_output(result):
 
 
 def run(page_title: str) -> str:
-    """Evaluates a Wikipedia page's content for possible dictation issues
+    """Proofreads a Wikipedia page and returns possible issues
 
     Args:
         page_title (str): Title of the Wikipedia page
 
     Returns:
-        str: Output of the evaluation in JSON format
+        str: Output of the proofreading in JSON format
     """
     # TODO: update the JS side so it doesn't reference "Botupdate" anymore
     load_ref_data()
+
     page_title = page_title.replace("_", " ")
-    return json.dumps(process_page(page_title), ensure_ascii=False)
+    wikitext = "\n" + get_page_wikitext(page_title) + "\n"
+    html = get_page_html(page_title)
+    result = main(page_title, wikitext, html)
+    output = generate_output(result)
+
+    return json.dumps(output, ensure_ascii=False)
 
 
 if __name__ == "__main__":
