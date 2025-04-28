@@ -10,7 +10,23 @@ python -m venv venv
 pip install -r Requirements.txt
 ```
 
+## Dependency on hunspell (optional)
+
 One of the packages is `hunspell` and on most machines, installing it requires installing an upstream package. For Linux machines, the requirement is called `libhunspell` and can be installed by running a command like `sudo apt install libhunspell-dev`
+
+On Toolforge, installing hunspell requires a different set of steps which are already performed for the `persian-typos` tool project. They are documented below for reference. First, you need to build hunspell from source:
+
+```
+webservice python3.11 shell
+wget https://github.com/hunspell/hunspell/releases/download/v1.7.2/hunspell-1.7.2.tar.gz && tar xf hunspell-1.7.2.tar.gz && cd hunspell-1.7.2 && ./configure && make
+```
+
+Next, you need to modify the virtual environment activation script to reference the location of dynamic libraries (a.k.a `LD_LIBRARY_PATH`), by editing `~/www/python/venv/bin/activate` to include the following:
+
+```
+LD_LIBRARY_PATH="/data/project/persian-typos/hunspell-1.7.2/src/hunspell/.libs"
+export LD_LIBRARY_PATH
+```
 
 ## Deploy
 
