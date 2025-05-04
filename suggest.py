@@ -30,7 +30,7 @@ def suggest(word: str) -> list[str]:
         return []
 
     base_path = os.getcwd() + "/dict/"
-    hobj = hunspell.HunSpell(base_path + "fa_IR.dic", base_path + "fa_ir.aff")
+    hobj = hunspell.HunSpell(base_path + "fa_IR.dic", base_path + "fa_IR.aff")
 
     return hobj.suggest(word)
 
@@ -50,7 +50,7 @@ def valid(word: str) -> bool:
         return True
 
     base_path = os.getcwd() + "/dict/"
-    hobj = hunspell.HunSpell(base_path + "fa_IR.dic", base_path + "fa_ir.aff")
+    hobj = hunspell.HunSpell(base_path + "fa_IR.dic", base_path + "fa_IR.aff")
 
     return hobj.spell(word)
 
