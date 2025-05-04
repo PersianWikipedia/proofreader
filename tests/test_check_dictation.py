@@ -36,6 +36,12 @@ class TestSpecificFunctions(unittest.TestCase):
         self.assertEqual(
             cd.find_asymmetrical_quotation_marks("متن «درست» و نادرست»"), [" و نادرست»"]
         )
+        self.assertEqual(
+            cd.find_asymmetrical_quotation_marks(
+                "متن «[[نادرست]] و «[[چهارم درست|درست]]»"
+            ),
+            ["«نادرست و "]
+        )
 
         # special case: currently, not caught by the algorithm
         self.assertEqual(

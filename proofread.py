@@ -266,6 +266,24 @@ def suggest_spaced_conjunction(word: str) -> str:
     if m and suggest.valid(m[2]):
         return m[1] + " " + m[2]
 
+def clean_wikitext(wikitext: str) -> str:
+    """Remove some wiki syntax from wikitext. This helps with finding the corresponding
+    piece of text on the screen by the JS code.
+
+    Args:
+        wikitext (str): Some wikitext
+
+    Returns:
+        str: The output string
+    """
+    pat = "\[\[([^|]+)\|([^\]]+)\]\]"
+    wikitext = re.sub(pat, "\\2", wikitext)
+
+    pat = "\[\[([^\]]+)\]\]"
+    wikitext = re.sub(pat, "\\1", wikitext)
+
+    return wikitext
+
 
 def find_asymmetrical_quotation_marks(wikitxt: str) -> list[str]:
     """Find cases of asymmetrical Persian quotation marks. For each case,
@@ -285,12 +303,17 @@ def find_asymmetrical_quotation_marks(wikitxt: str) -> list[str]:
     # find all cases of asymterical quotation marks
     for line in wikitxt.split("\n"):
         if line.count("«") > line.count("»"):
-            output += re.findall(r"(?!«[^»«]+»)(«[^»«]+)", line)
+            found = re.findall(r"(?!«[^»«]+»)(«[^»«]+)", line)
+            for f in found:
+                f = clean_wikitext(f)
+                output.append(f)
         elif line.count("«") < line.count("»"):
             line = line[::-1]
             found = re.findall(r"(?!»[^»«]+«)(»[^»«]+)", line)
             for f in found:
-                output.append(f[::-1])
+                f = f[::-1]
+                f = clean_wikitext(f)
+                output.append(f)
 
     # reduce the displayed output to the minimum necessary
     for idx, item in enumerate(output):
