@@ -297,19 +297,9 @@ def find_asymmetrical_quotation_marks(wikitxt: str) -> list[str]:
         if item[0] == "«":
             if len(item) > 30:
                 output[idx] = item[:29]
-
-            # TODO: document the logic of the following segment
-            m = re.findall(r"«(?:[^\]\[\'\<»«]+)", output[idx])
-            if len(m[0]) > 5:
-                output[idx] = m[0]
         else:
             if len(item) > 30:
                 output[idx] = item[-29:]
-
-            # TODO: document the logic of the following segment
-            m = re.findall(r"(?![\]\[\'\<»«]+)(?:[^\]\[\'\<»«]+)»", output[idx])
-            if len(m[0]) > 5:
-                output[idx] = m[0]
 
     return output
 
