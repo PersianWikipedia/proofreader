@@ -18,7 +18,11 @@ On Toolforge, installing hunspell requires a different set of steps which are al
 
 ```
 webservice python3.11 shell
-wget https://github.com/hunspell/hunspell/releases/download/v1.7.2/hunspell-1.7.2.tar.gz && tar xf hunspell-1.7.2.tar.gz && cd hunspell-1.7.2 && ./configure && make
+wget https://github.com/hunspell/hunspell/releases/download/v1.7.2/hunspell-1.7.2.tar.gz
+tar xf hunspell-1.7.2.tar.gz
+cd hunspell-1.7.2
+./configure
+make
 ```
 
 Next, you need to modify the virtual environment activation script to reference the location of dynamic libraries (a.k.a `LD_LIBRARY_PATH`), by editing `~/www/python/venv/bin/activate` to include the following:
