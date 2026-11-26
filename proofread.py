@@ -688,7 +688,7 @@ def main(page_title, wikitext, html):
             "ویکی‌پدیا:اشتباه‌یاب/عیب‌یابی",
         ]
         if page_title not in test_pages:
-            return {"result": [], "error": "not supposed to work on RfCs"}
+            return {"error": "not supposed to work on RfCs"}
 
     faText = (
         wikitext.replace("[[ ", "[[")
@@ -698,7 +698,7 @@ def main(page_title, wikitext, html):
     )
     faText = faText.replace(" |", "|").replace(" |", "|")
     if not faText.strip():
-        return {"result": [], "error": "the page couldn't be retrieved"}
+        return {"error": "the page couldn't be retrieved"}
     result = []
     remove_regex = (
         "(" + "|".join(honorifics_blacklist) + "|" + "|".join(user_provided_blacklist) + ")"
