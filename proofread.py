@@ -684,7 +684,8 @@ def main(page_title, wikitext, html):
     ) and "ویکی‌پدیا:" in page_title:
         test_pages = [
             "ویکی‌پدیا:اشتباه‌یاب/تست",
-            "ویکی‌پدیا:اشتباه‌یاب/تمرین"
+            "ویکی‌پدیا:اشتباه‌یاب/تمرین",
+            "ویکی‌پدیا:اشتباه‌یاب/عیب‌یابی",
         ]
         if page_title not in test_pages:
             return {"result": [], "error": "not supposed to work on RfCs"}
